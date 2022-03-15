@@ -63,6 +63,11 @@ void* queue_pop(struct queue *queue)
     return data;
 }
 
+void *queue_peek(struct queue *queue)
+{
+    return queue->newest->data;
+}
+
 void queue_free(struct queue *queue, void (*free_function)(void*))
 {
     while(!queue_is_empty(queue))

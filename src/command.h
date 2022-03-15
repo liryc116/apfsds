@@ -3,17 +3,23 @@
 
 #include <stddef.h>
 
+#include "token.h"
+#include "utils/queue.h"
+
 struct command
 {
-    //enum redirirection *redirections;
+    enum token_kind *redir;
+    size_t n_redir;
     char **argv;
     size_t argc;
 };
 
-struct command *command_new(char *name);
+struct command *command_new(void);
 
-void command_add_arg(struct command *c, char *arg);
+void command_add_arg(struct command *c, struct token *tok);
 
-void command_add_redirection(struct command *c, char *redir);
+void command_add_redir(struct command *c, struct token *tok);
+
+struct command *parse_simple_command(struct queue *q);
 
 #endif /* ! COMMAND_H */

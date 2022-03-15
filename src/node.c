@@ -2,21 +2,19 @@
 
 #include "utils/xmalloc.h"
 
-#include <string.h>
-
-struct node *node_new(enum kind node_kind)
+struct node *node_new(enum node_kind kind)
 {
-    struct node *node = xmalloc(sizeof(struct node));
+    struct node *node = xcalloc(1, sizeof(struct node));
 
-    node->node_kind = node_kind;
-    node->n = 0;
-    node->commands = NULL;
+    node->kind = kind;
 
     return node;
 }
 
 void node_add_command(struct node *node, struct command *com)
 {
-    node->commands[node->n] = *com;
+    node->commands =
+        xreallocarray(node->commands, node->n, sizeof(struct command *));
+    node->commands[node->n] = com;
     node->n+=1;
 }

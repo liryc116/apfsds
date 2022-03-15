@@ -3,15 +3,23 @@
 
 enum token_kind
 {
-    NONE,
     WORD,
     ASSIGNMENT_WORD,
-    IONUMBER,
-    HEREDOC,
     NAME,
-    KEYWORD,
-    OPERATOR,
-    OTHER
+    NEWLINE,
+    IO_NUMBER,
+    AND_IF,
+    OR_IF,
+    DSEMI,
+    DLESS,
+    DGREAT,
+    GREATAND,
+    LESSAND,
+    LESSGREAT,
+    DLESSDASH,
+    CLOBBER,
+    EOF,
+    OTHER, // may include '(' ')' '[' ']'
 };
 
 struct token
@@ -20,6 +28,11 @@ struct token
     char *value;
 };
 
+struct token *token_new(enum token_kind kind);
+
+
 void token_append_val(struct token *tok, char c);
+
+struct token *token_free(struct token *tok);
 
 #endif

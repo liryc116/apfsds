@@ -5,20 +5,24 @@
 
 #include <stddef.h>
 
-enum kind
+enum node_kind
 {
+    LIST,
+    AND,
     OR,
-    ELSE,
     IF,
+    ELIF,
+    FUNCTION,
 };
 
 struct node{
-    enum kind node_kind;
-    struct command *commands;
+    enum node_kind kind;
+
+    struct command **commands;
     size_t n;
 };
 
-struct node *node_new(enum kind node_kind);
+struct node *node_new(enum node_kind kind);
 
 void node_add_command(struct node *node, struct command *com);
 
