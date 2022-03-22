@@ -3,6 +3,10 @@
 
 #include "token.h"
 
+int start_op(char c);
+
+enum token_kind lex_redir(char **str_ptr);
+
 int is_redir(struct token *tok);
 
 int first_redir(struct token *tok);

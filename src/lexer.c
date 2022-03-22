@@ -1,23 +1,47 @@
 #include "lexer.h"
 
-#include "utils/vector.h"
+#include "utils/queue.h"
+#include "utils/xmalloc.h"
 #include "token.h"
+#include "operator.h"
 
-struct vector *lexer(char *str)
+#include <stdlib.h>
+
+
+#include <stdio.h>
+
+void add_token(struct queue *q, struct token *tok)
+{
+    queue_push(q, tok, sizeof(struct token));
+    tok->value = NULL;
+    tok->kind = WORD;
+}
+
+struct queue *lexer(char *str)
 {
     char *s = str;
-    struct vector *v = vector_new();
-    struct token tok = {NONE, "\0"};
+    struct queue *q = queue_new();
+    struct token tok = {WORD, NULL};
     //int in_quote = 0;
 
     while(*s!='\0')
     {
-        tok.kind = WORD;
-        token_append_val(&tok, *s);
-        s++;
+        if(start_op(*s))
+        {
+            queue_push(q, &tok, sizeof(struct token));
+            lex_op(&s, &tok);
+            add_token(q, &tok);
+        }
+        else
+        {
+            if(*s=='=' && tok.value!=NULL && tok.value[0]!='\0')
+                tok.kind = ASSIGNMENT_WORD;
+            token_append_val(&tok, *s);
+            s++;
+        }
     }
 
-    vector_append(v, &tok, sizeof(struct token));
+    queue_push(q, &tok, sizeof(struct token));
 
-    return v;
+    return q;
 }

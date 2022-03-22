@@ -18,8 +18,8 @@ enum token_kind
     LESSGREAT,
     DLESSDASH,
     CLOBBER,
-    EOF,
-    OTHER, // may include '(' ')' '[' ']'
+    T_EOF,
+    OTHER, // '>' '<' may include '(' ')' '[' ']'
 };
 
 struct token
@@ -28,11 +28,12 @@ struct token
     char *value;
 };
 
-struct token *token_new(enum token_kind kind);
+char *token_to_str(enum token_kind kind);
 
+struct token *token_new(enum token_kind kind);
 
 void token_append_val(struct token *tok, char c);
 
-struct token *token_free(struct token *tok);
+void token_free(void *token);
 
 #endif

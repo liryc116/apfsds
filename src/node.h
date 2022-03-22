@@ -8,6 +8,7 @@
 enum node_kind
 {
     LIST,
+    PIPELINE,
     AND,
     OR,
     IF,
@@ -25,5 +26,7 @@ struct node{
 struct node *node_new(enum node_kind kind);
 
 void node_add_command(struct node *node, struct command *com);
+
+void node_free(void *node);
 
 #endif /* ! NODE_H */

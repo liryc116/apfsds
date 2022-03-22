@@ -15,7 +15,7 @@ struct queue_elm
 };
 
 // Initialize (and allocate) the queue structure.
-struct queue* queue_init(void);
+struct queue* queue_new(void);
 
 // Return true if the queue is empty.
 // Otherwise, return false.

@@ -1,36 +1,31 @@
 #include "parser.h"
 
 #include "utils/queue.h"
+#include "utils/tree.h"
 #include "token.h"
+#include "node.h"
 #include "command.h"
 
-int eat(struct token *expected, struct token *have)
-{
-    return expected==have;
-}
+#include <err.h>
+#include <stdlib.h>
 
 struct tree *parser(struct queue *q)
 {
-    struct tree *res = tree_new();
-    struct token *tok = queue_pop(q);
-    struct command comm;
-    while(tok!=NULL)
+    struct token *tok = queue_peek(q);
+    struct node *node = node_new(LIST);
+    while(!queue_is_empty(q))
     {
-        if(tok->kind==WORD)
-            command_add_arg(&comm, tok);
-        else if(is_redir(tok))
-            command_add_redir(&comm, tok);
+        if(first_command(tok))
+                node_add_command(node, parse_simple_command(q));
+        else if(tok->kind==T_EOF)
+            break;
         else
-            tree_add_child();
-        if(tok->kind==EOF)
-                return NULL;
-        else
-        {
-            parser(q)
-        }
+            errx(1, "unexpected not command");
 
-        tok = queue_pop(q);
+        tok = queue_peek(q);
     }
 
+    struct tree *res = tree_new(node, sizeof(struct node));
+    free(node);
     return res;
 }

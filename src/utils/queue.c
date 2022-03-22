@@ -1,11 +1,14 @@
 #include "queue.h"
+
+#include "xmalloc.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <err.h>
 
-struct queue* queue_init(void)
+struct queue* queue_new(void)
 {
-    struct queue *queue = malloc(sizeof(struct queue));
+    struct queue *queue = xmalloc(sizeof(struct queue));
 
     if(queue==NULL)
         errx(1, "Not enough memory");
@@ -23,11 +26,11 @@ int queue_is_empty(struct queue *queue)
 
 void queue_push(struct queue *queue, void* data, size_t data_size)
 {
-    struct queue_elm *elm = malloc(sizeof(struct queue_elm));
+    struct queue_elm *elm = xmalloc(sizeof(struct queue_elm));
     if(elm==NULL)
         errx(1, "Not enough memory");
 
-    elm->data = malloc(data_size);
+    elm->data = xmalloc(data_size);
     if(elm->data==NULL)
         errx(1, "Not enough memory");
 
@@ -46,7 +49,7 @@ void queue_push(struct queue *queue, void* data, size_t data_size)
     }
 }
 
-void* queue_pop(struct queue *queue)
+void *queue_pop(struct queue *queue)
 {
     if(queue_is_empty(queue))
         return NULL;
@@ -65,6 +68,8 @@ void* queue_pop(struct queue *queue)
 
 void *queue_peek(struct queue *queue)
 {
+    if(queue_is_empty(queue))
+        return NULL;
     return queue->newest->data;
 }
 

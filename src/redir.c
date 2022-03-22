@@ -1,6 +1,5 @@
 #include "redir.h"
 
-#include "token.h"
 #include "command.h"
 #include "utils/queue.h"
 #include "utils/error.h"
@@ -12,7 +11,8 @@ int is_redir(struct token *tok)
     enum token_kind k = tok->kind;
     return k==DLESS || k==DGREAT || k==GREATAND || k==LESSAND ||
         k==LESSGREAT || k==DLESSDASH || k==CLOBBER ||
-        strcmp(tok->value, ">")==0 || strcmp(tok->value, "<")==0;
+        (k==OTHER &&
+         (strcmp(tok->value, ">")==0 || strcmp(tok->value, "<")==0));
 }
 
 int first_redir(struct token *tok)
@@ -31,7 +31,10 @@ void parse_redir(struct queue *q, struct command *c)
     if(!is_redir(t))
         parse_error(q, DLESS);
 
-    command_add_redir(c, queue_pop(q));
+    struct token *tok = queue_pop(q);
+    command_add_redir(c, tok);
+    token_free(tok);
+
     t = queue_peek(q);
 
     if(t->kind != WORD)

@@ -24,7 +24,7 @@ void *xcalloc(size_t nmemb, size_t size)
 void *xrealloc(void *ptr, size_t size)
 {
     void *p = realloc(ptr, size);
-    if(p=NULL)
+    if(p==NULL)
         errx(1, "Not enough memory");
 
     return p;
@@ -33,7 +33,7 @@ void *xrealloc(void *ptr, size_t size)
 void *xreallocarray(void *ptr, size_t nmemb, size_t size)
 {
     void *p = reallocarray(ptr, nmemb, size);
-    if(p=NULL)
+    if(p==NULL)
         errx(1, "Not enough memory");
 
     return p;

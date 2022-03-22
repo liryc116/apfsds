@@ -8,7 +8,7 @@ void tokenizer(struct vector *v)
     for(size_t i = 0; i<v->size; i++)
     {
         struct token *tok = v->data[i];
-        if(tok->kind == NONE)
+        if(tok->kind != WORD)
             tok->kind = WORD;
     }
 }
