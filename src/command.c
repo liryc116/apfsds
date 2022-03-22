@@ -12,8 +12,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <stdio.h>
-
 int first_command(struct token *tok)
 {
     // Check if not a fundec
@@ -67,8 +65,7 @@ struct command *parse_simple_command(struct queue *q)
 
     while(!queue_is_empty(q) && first_command(tok))
     {
-        printf("%s\n", token_to_str(tok->kind));
-        if(first_redir(tok))
+        if(first_redir(tok) || tok->value==NULL)
             parse_redir(q, comm);
         else
         {

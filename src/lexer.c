@@ -7,13 +7,10 @@
 
 #include <stdlib.h>
 
-
-#include <stdio.h>
-
 void add_token(struct queue *q, struct token *tok)
 {
-    queue_push(q, tok, sizeof(struct token));
     tok->value = NULL;
+    queue_push(q, tok, sizeof(struct token));
     tok->kind = WORD;
 }
 

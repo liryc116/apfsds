@@ -25,7 +25,9 @@ void parse_redir(struct queue *q, struct command *c)
     struct token *t = queue_peek(q);
     if(t->kind == IO_NUMBER)
     {
-        command_add_arg(c, queue_pop(q));
+        struct token *tok = queue_pop(q);
+        command_add_arg(c, tok);
+        token_free(tok);
         t = queue_peek(q);
     }
     if(!is_redir(t))
@@ -39,5 +41,7 @@ void parse_redir(struct queue *q, struct command *c)
 
     if(t->kind != WORD)
         parse_error(q, WORD);
-    command_add_arg(c, queue_pop(q));
+    tok = queue_pop(q);
+    command_add_arg(c, tok);
+    token_free(tok);
 }

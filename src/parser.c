@@ -16,7 +16,8 @@ struct tree *parser(struct queue *q)
     while(!queue_is_empty(q))
     {
         if(first_command(tok))
-                node_add_command(node, parse_simple_command(q));
+                node_add_command(node,
+                        parse_simple_command(q));
         else if(tok->kind==T_EOF)
             break;
         else

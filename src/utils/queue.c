@@ -10,9 +10,6 @@ struct queue* queue_new(void)
 {
     struct queue *queue = xmalloc(sizeof(struct queue));
 
-    if(queue==NULL)
-        errx(1, "Not enough memory");
-
     queue->newest = NULL;
 
     return queue;
@@ -27,12 +24,8 @@ int queue_is_empty(struct queue *queue)
 void queue_push(struct queue *queue, void* data, size_t data_size)
 {
     struct queue_elm *elm = xmalloc(sizeof(struct queue_elm));
-    if(elm==NULL)
-        errx(1, "Not enough memory");
 
     elm->data = xmalloc(data_size);
-    if(elm->data==NULL)
-        errx(1, "Not enough memory");
 
     memcpy(elm->data, data, data_size);
 
@@ -70,7 +63,7 @@ void *queue_peek(struct queue *queue)
 {
     if(queue_is_empty(queue))
         return NULL;
-    return queue->newest->data;
+    return queue->newest->next->data;
 }
 
 void queue_free(struct queue *queue, void (*free_function)(void*))
