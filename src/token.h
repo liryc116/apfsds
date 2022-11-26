@@ -3,23 +3,34 @@
 
 enum token_kind
 {
-    WORD,
-    ASSIGNMENT_WORD,
-    NAME,
-    NEWLINE,
-    IO_NUMBER,
-    AND_IF,
-    OR_IF,
-    DSEMI,
-    DLESS,
-    DGREAT,
-    GREATAND,
-    LESSAND,
-    LESSGREAT,
-    DLESSDASH,
-    CLOBBER,
-    T_EOF,
-    OTHER, // '>' '<' may include '(' ')' '[' ']'
+    NTS_INPUT,
+    NTS_LIST,
+    NTS_AND_OR,
+    NTS_PIPELINE,
+    NTS_COMMAND,
+    NTS_SIMPLE_COMMAND,
+    NTS_REDIRECTIONS,
+    NTS_PREFIX,
+    NTS_ELEMENT,
+
+    // Lexer/litteral tokens
+    TS_WORD,
+    TS_ASSIGNMENT_WORD,
+    TS_NAME,
+    TS_NEWLINE, // '\n'
+    TS_IO_NUMBER,
+    TS_AND_IF, // &&
+    TS_OR_IF, // ||
+    TS_DSEMI, // ;;
+    TS_DLESS, // <<
+    TS_DGREAT, // >>
+    TS_GREATAND, // >&
+    TS_LESSAND, // <&
+    TS_LESSGREAT, // <>
+    TS_DLESSDASH, // <<-
+    TS_CLOBBER, // >|
+    TS_EOF, // $ '\0'
+    TS_OTHER, // '>' '<' may include '(' ')' '[' ']' '|' '&'
 };
 
 struct token

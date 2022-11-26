@@ -7,7 +7,7 @@
 
 enum node_kind
 {
-    LIST,
+    LIST, // SEQUENCE
     PIPELINE,
     AND,
     OR,

@@ -9,43 +9,51 @@ char *token_to_str(enum token_kind kind)
 {
     switch(kind)
     {
-    case WORD:
+    case TS_WORD:
         return "WORD";
-    case ASSIGNMENT_WORD:
+    case TS_ASSIGNMENT_WORD:
         return "ASSIGNMENT_WORD";
-    case NAME:
+    case TS_NAME:
         return "NAME";
-    case NEWLINE:
+    case TS_NEWLINE:
         return "NEWLINE";
-    case IO_NUMBER:
+    case TS_IO_NUMBER:
         return "IO_NUMBER";
-    case AND_IF:
+    case TS_AND_IF:
         return "AND_IF ('&&')";
-    case OR_IF:
+    case TS_OR_IF:
         return "OR_IF ('||')";
-    case DSEMI:
+    case TS_DSEMI:
         return "DSEMI (';;')";
-    case DLESS:
+    case TS_DLESS:
         return "DLESS ('<<')";
-    case DGREAT:
+    case TS_DGREAT:
         return "DGREAT ('>>')";
-    case GREATAND:
+    case TS_GREATAND:
         return "GREATAND ('>&')";
-    case LESSAND:
+    case TS_LESSAND:
         return "LESSAND ('<&')";
-    case LESSGREAT:
+    case TS_LESSGREAT:
         return "LESSGREAT ('<>')";
-    case DLESSDASH:
+    case TS_DLESSDASH:
         return "DLESSDASH ('<<-')";
-    case CLOBBER:
+    case TS_CLOBBER:
         return "CLOBBER ('>|')";
-    case T_EOF:
+    case TS_EOF:
         return "EOF";
-    case OTHER: // default
+    case TS_OTHER: // default
         return "OTHER";
     }
 
     return "";
+}
+
+struct token *token_new(enum token_kind kind)
+{
+    struct token *token = xcalloc(1, sizeof(struct token));
+    token->kind = kind;
+
+    return token;
 }
 
 void token_append_val(struct token *tok, char c)
@@ -66,6 +74,7 @@ void token_append_val(struct token *tok, char c)
 void token_free(void *token)
 {
     struct token *t = token;
-    free(t->value);
+    if(t->value!=NULL)
+        free(t->value);
     free(t);
 }

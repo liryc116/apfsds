@@ -20,3 +20,12 @@ void parse_error(struct queue *q, enum token_kind expected)
         tok = queue_peek(q);
     }
 }
+
+void send_parse_error(struct token *token, enum token_kind expected)
+{
+    if(token->kind == expected)
+        return;
+    warnx("Parse error: expected %s got %s (%s)",
+            token_to_str(expected),
+            token_to_str(token->kind), token->value);
+}

@@ -6,4 +6,6 @@
 
 void parse_error(struct queue *q, enum token_kind expected);
 
+void send_parse_error(struct token *token, enum token_kind expected);
+
 #endif /* ! ERROR_H */
